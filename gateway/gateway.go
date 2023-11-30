@@ -11,10 +11,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/chaitanyapantheor/golang-grpc-http/insecure"
+	buildsv1 "github.com/chaitanyapantheor/golang-grpc-http/proto/builds/v1"
+	usersv1 "github.com/chaitanyapantheor/golang-grpc-http/proto/users/v1"
+	"github.com/chaitanyapantheor/golang-grpc-http/third_party"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/johanbrandhorst/grpc-gateway-boilerplate/insecure"
-	usersv1 "github.com/johanbrandhorst/grpc-gateway-boilerplate/proto/users/v1"
-	"github.com/johanbrandhorst/grpc-gateway-boilerplate/third_party"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/grpclog"
@@ -52,6 +53,11 @@ func Run(dialAddr string) error {
 
 	gwmux := runtime.NewServeMux()
 	err = usersv1.RegisterUserServiceHandler(context.Background(), gwmux, conn)
+	if err != nil {
+		return fmt.Errorf("failed to register gateway: %w", err)
+	}
+
+	err = buildsv1.RegisterBuildServiceHandler(context.Background(), gwmux, conn)
 	if err != nil {
 		return fmt.Errorf("failed to register gateway: %w", err)
 	}

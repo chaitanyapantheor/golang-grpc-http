@@ -5,10 +5,11 @@ import (
 	"net"
 	"os"
 
-	"github.com/johanbrandhorst/grpc-gateway-boilerplate/gateway"
-	"github.com/johanbrandhorst/grpc-gateway-boilerplate/insecure"
-	usersv1 "github.com/johanbrandhorst/grpc-gateway-boilerplate/proto/users/v1"
-	"github.com/johanbrandhorst/grpc-gateway-boilerplate/server"
+	"github.com/chaitanyapantheor/golang-grpc-http/gateway"
+	"github.com/chaitanyapantheor/golang-grpc-http/insecure"
+	buildsv1 "github.com/chaitanyapantheor/golang-grpc-http/proto/builds/v1"
+	usersv1 "github.com/chaitanyapantheor/golang-grpc-http/proto/users/v1"
+	"github.com/chaitanyapantheor/golang-grpc-http/server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/grpclog"
@@ -30,6 +31,7 @@ func main() {
 		grpc.Creds(credentials.NewServerTLSFromCert(&insecure.Cert)),
 	)
 	usersv1.RegisterUserServiceServer(s, server.New())
+	buildsv1.RegisterBuildServiceServer(s, server.New())
 
 	// Serve gRPC Server
 	log.Info("Serving gRPC on https://", addr)

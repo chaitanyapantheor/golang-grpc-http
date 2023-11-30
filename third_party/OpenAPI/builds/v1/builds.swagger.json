@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "users/v1/users.proto",
+    "title": "builds/v1/builds.proto",
     "version": "1.0"
   },
   "tags": [
     {
-      "name": "UserService"
+      "name": "BuildService"
     }
   ],
   "schemes": [
@@ -19,11 +19,11 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/users": {
+    "/api/v1/builds": {
       "get": {
-        "summary": "List users",
-        "description": "List all users on the server.",
-        "operationId": "UserService_ListUsers",
+        "summary": "List builds",
+        "description": "List all builds on the server.",
+        "operationId": "BuildService_ListBuilds",
         "responses": {
           "200": {
             "description": "(streaming responses)",
@@ -31,13 +31,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/v1User"
+                  "$ref": "#/definitions/v1Build"
                 },
                 "error": {
                   "$ref": "#/definitions/rpcStatus"
                 }
               },
-              "title": "Stream result of v1ListUsersResponse"
+              "title": "Stream result of v1ListBuildsResponse"
             }
           },
           "default": {
@@ -48,18 +48,18 @@
           }
         },
         "tags": [
-          "Users"
+          "Builds"
         ]
       },
       "post": {
-        "summary": "Add a user",
-        "description": "Add a user to the server.",
-        "operationId": "UserService_AddUser",
+        "summary": "Add a build",
+        "description": "Add a build to the server.",
+        "operationId": "BuildService_AddBuild",
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/v1User"
+              "$ref": "#/definitions/v1Build"
             }
           },
           "default": {
@@ -75,12 +75,12 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1AddUserRequest"
+              "$ref": "#/definitions/v1AddBuildRequest"
             }
           }
         ],
         "tags": [
-          "Users"
+          "Builds"
         ]
       }
     }
@@ -114,30 +114,38 @@
         }
       }
     },
-    "v1AddUserRequest": {
-      "type": "object"
-    },
-    "v1AddUserResponse": {
+    "v1AddBuildRequest": {
       "type": "object",
       "properties": {
-        "user": {
-          "$ref": "#/definitions/v1User"
+        "label": {
+          "type": "string"
         }
       }
     },
-    "v1ListUsersResponse": {
+    "v1AddBuildResponse": {
       "type": "object",
       "properties": {
-        "user": {
-          "$ref": "#/definitions/v1User"
+        "build": {
+          "$ref": "#/definitions/v1Build"
         }
       }
     },
-    "v1User": {
+    "v1Build": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ListBuildsResponse": {
+      "type": "object",
+      "properties": {
+        "build": {
+          "$ref": "#/definitions/v1Build"
         }
       }
     }

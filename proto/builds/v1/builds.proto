@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package builds.v1;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+// These annotations are used when generating the OpenAPI file.
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {version: "1.0"};
+  external_docs: {
+    url: "https://github.com/chaitanyapantheor/golang-grpc-http";
+    description: "gRPC-gateway boilerplate repository";
+  }
+  schemes: HTTPS;
+};
+
+service BuildService {
+  rpc AddBuild(AddBuildRequest) returns (AddBuildResponse) {
+    option (google.api.http) = {
+      // Route to this method from POST requests to /api/v1/builds
+      post: "/api/v1/builds"
+      body: "*"
+      response_body: "build"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Add a build"
+      description: "Add a build to the server."
+      tags: "Builds"
+    };
+  }
+  rpc ListBuilds(ListBuildsRequest) returns (stream ListBuildsResponse) {
+    option (google.api.http) = {
+      // Route to this method from GET requests to /api/v1/builds
+      get: "/api/v1/builds"
+      response_body: "build"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List builds"
+      description: "List all builds on the server."
+      tags: "Builds"
+    };
+  }
+}
+
+message AddBuildRequest {
+  string label = 1;
+}
+
+message AddBuildResponse {
+  Build build = 1;
+}
+
+message ListBuildsRequest {}
+
+message ListBuildsResponse {
+  Build build = 1;
+}
+
+message Build {
+  string id = 1;
+  string label = 2;
+}
